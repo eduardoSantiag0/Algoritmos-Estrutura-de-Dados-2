@@ -15,7 +15,8 @@ void imprime(int v[], int n)
 int calcularNumeroDePares(int vetorX[],int vetorY[], int tamX, int tamY, int somaDasMedianas) {
 
     int contador = 0;
-    int i, j = 0;
+    int i = 0;
+    int j = tamY - 1;
 
     // int meioX = tamX / 2;
     // int meioY = tamY / 2;
@@ -58,6 +59,30 @@ int calcularNumeroDePares(int vetorX[],int vetorY[], int tamX, int tamY, int som
 
 }
 
+void quickSort(int v[], int esquerda, int direita) {
+    if (esquerda >= direita) return;
+
+    int pivo = v[(esquerda + direita) / 2];
+    int i = esquerda;
+    int j = direita;
+
+    while (i <= j) {
+        while (v[i] < pivo) i++;
+        while (v[j] > pivo) j--;
+
+        if (i <= j) {
+            int tmp = v[i];
+            v[i] = v[j];
+            v[j] = tmp;
+            i++;
+            j--;
+        }
+    }
+
+    quickSort(v, esquerda, j);
+    quickSort(v, i, direita);
+}
+
 
 void insertionSort(int vetor[], int tamanho) {
     for (int i = 1; i < tamanho; i++) {
@@ -75,7 +100,8 @@ void insertionSort(int vetor[], int tamanho) {
 
 int encontrarMediana(int vetor[], int tam) {
 
-    insertionSort(vetor, tam);
+    quickSort(vetor, 0, tam-1);
+    // insertionSort(vetor, tam);
     // selectionSort, insertionSort, quickSort, mergeSort
 
     // Se for par, deixar um elemento a menos
@@ -124,12 +150,15 @@ int main (void)
     
 
     // Calcular quantos pares em cada conjunto somam igual a mediana (mX + mY)
-    // imprime(conjuntoX, tamanhoX);
-    // imprime(conjuntoY, tamanhoY);
+    imprime(conjuntoX, tamanhoX);
+    imprime(conjuntoY, tamanhoY);
+
+    
 
     int out = calcularNumeroDePares(conjuntoX, conjuntoY, tamanhoX, tamanhoY, somaDasMedianas);
     
     printf("%d\n", out);
+
 
     return 0;
 }
